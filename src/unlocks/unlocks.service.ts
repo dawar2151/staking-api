@@ -55,8 +55,8 @@ export class UnlocksService implements OnModuleInit{
    * @dev Find unlock by query
    * @param req Get unlock by query
    */
-  find(req): Promise<Unlock | undefined> {
-    return this.unlocksRepository.findOne(req);
+  find(req): Promise<Unlock[] | undefined> {
+    return this.unlocksRepository.find(req);
   }
   /**
    * @dev remove unlock

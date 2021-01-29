@@ -20,14 +20,12 @@ export class LocksService implements OnModuleInit{
     // watch for changes
     exchanger.getSc().events.logLockedTokens(function(error, result){ //This is where events can trigger changes in UI
       if (!error){
-        console.log(result);
         const eventData = result.returnValues;
         const lock = new Lock();
         lock.holder = eventData.holder;
         lock.amountLocked = parseInt(eventData.amountLocked);
         lock.stakeId = parseInt(eventData.stakeId)
         const res = self.locksRepository.save(lock); 
-        console.log(res);
       }
         
     });
@@ -68,8 +66,8 @@ export class LocksService implements OnModuleInit{
    * @dev Find lock by query
    * @param req Get lock by query
    */
-  find(req): Promise<Lock | undefined> {
-    return this.locksRepository.findOne(req);
+  find(req): Promise<Lock[]| undefined> {
+    return this.locksRepository.find(req);
   }
   /**
    * @dev remove lock

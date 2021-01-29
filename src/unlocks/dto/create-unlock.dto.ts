@@ -5,7 +5,6 @@ export class CreateUnlockDto {
 
   id: number;
 
-
   holder: string
 
   amountUnlocked: number

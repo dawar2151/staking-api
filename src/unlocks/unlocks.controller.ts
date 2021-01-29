@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Put, Post, UseInterceptors, Query } from '@nestjs/common';
 import { CreateUnlockDto } from './dto/create-unlock.dto'
 import { Unlock } from './unlock.entity';
 import { UnlocksService } from './unlocks.service';
@@ -15,8 +15,8 @@ export class UnlocksController {
   }
 
   @Get()
-  findAll(): Promise<Unlock[]> {
-    return this.unlockservice.findAll();
+  find(@Query() query:any): Promise<Unlock[]> {
+    return this.unlockservice.find({holder: query.holder});
   }  
 
 }

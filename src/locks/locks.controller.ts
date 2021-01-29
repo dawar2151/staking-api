@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Put, Post, UseInterceptors } from '@nestjs/common';
-import { CreateLockDto } from './dto/create-lock.dto'
+import { Body, Controller, Get, Put, Query } from '@nestjs/common';
 import { Lock } from './lock.entity';
 import { LocksService } from './locks.service';
 import { UpdateLockDto } from './dto/update-lock.dto'
@@ -15,8 +14,8 @@ export class LocksController {
   }
 
   @Get()
-  findAll(): Promise<Lock[]> {
-    return this.lockservice.findAll();
+  find(@Query() query:any): Promise<Lock[]> {
+    return this.lockservice.find({holder: query.holder});
   }  
 
 }

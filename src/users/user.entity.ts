@@ -11,9 +11,9 @@ export class User{
     @Column({default:0})
     lockedAmount:number
 
-    @Column({default:0})
-    Layerx: number
+    @Column({type: 'bigint', default:'0'})
+    Layerx: string
 
-    @Column({default:0})
-    eth: number
+    @Column({type: 'bigint', default:'0'})
+    eth: string
 }

@@ -21,21 +21,25 @@ export class StakesService implements OnModuleInit{
         console.log(result);
         if(!error){
           const eventData = result.returnValues;
-          const stake = exchanger.getStake(eventData.stakeNum);
-          console.log(stake);
-          let newStake =  new Stake();
-          newStake.start = stake[0];
-          newStake.end = stake[1];
-          newStake.layerLockedTotal = stake[2];
-          newStake.eth = stake[3];
-          newStake.layerx = stake[4];
-          self.stakesRepository.save(newStake);
+          self.saveStake(eventData);
           self.usersService.sendRewards();
         }
         
     })
   }
-
+  async saveStake(eventData){
+    const exchanger = new Exchanger();
+    const stake = await exchanger.getStake(eventData.stakeNum);
+    console.log(stake);
+    let newStake =  new Stake();
+    newStake.start = stake[0];
+    newStake.end = stake[1];
+    newStake.layerLockedTotal = stake[2];
+    newStake.layerx = String(stake[3]);
+    newStake.eth = String(stake[4]);
+    newStake.timeClosed = eventData.timeClosed;
+    this.stakesRepository.save(newStake);
+  }
   /**
    * Save stake
    * @param createStakeDto 

@@ -22,6 +22,7 @@ export class LocksService implements OnModuleInit{
     let self = this;
     // watch for changes
     exchanger.getSc().events.logLockedTokens(function(error, result){ //This is where events can trigger changes in UI
+      console.log(result);
       if (!error){
         const eventData = result.returnValues;
         const lock = new Lock();

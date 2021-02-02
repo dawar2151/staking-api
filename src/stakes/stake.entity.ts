@@ -14,9 +14,12 @@ export class Stake{
     @Column({default:0})
     layerLockedTotal: number
 
-    @Column({default:0})
-    layerx: number
+    @Column({type: 'bigint', default:'0'})
+    layerx: string
+
+    @Column({type: 'bigint', default:'0'})
+    eth: string
 
     @Column({default:0})
-    eth: number
+    timeClosed:number
 }

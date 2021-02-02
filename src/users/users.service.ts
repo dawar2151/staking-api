@@ -30,11 +30,11 @@ export class UsersService implements OnModuleInit{
     const exchanger =  new Exchanger();
     const users = await this.findAll();
     for(let user of users){
-      const reward = exchanger.getReward(user.address);
+      const reward = await exchanger.getReward(user.address);
       console.log(user);
       console.log(reward);
-      user.Layerx = reward[0];
-      user.eth = reward[1];
+      user.Layerx = String(reward[0]);
+      user.eth = String(reward[1]);
       this.update(user);
     }
   }
@@ -48,8 +48,8 @@ export class UsersService implements OnModuleInit{
   async validateWithdraw(address){
     const user = await this.findOne({address});
     if(user){
-      user.Layerx = 0;
-      user.eth = 0;
+      user.Layerx = '0';
+      user.eth = '0';
       this.update(user);
     } 
   }

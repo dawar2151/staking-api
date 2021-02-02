@@ -9,6 +9,7 @@ import { LocksModule } from './locks/lock.module'
 import { UnlocksModule } from './unlocks/unlock.module';
 import { WithdrawsModule } from './withdraws/withdraw.module';
 import { UsersModule } from './users/user.module';
+import { StakesModule } from './stakes/stake.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -26,7 +27,8 @@ import { UsersModule } from './users/user.module';
     LocksModule,
     UnlocksModule,
     WithdrawsModule,
-    UsersModule
+    UsersModule,
+    StakesModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -36,6 +36,9 @@ class Exchanger{
     getSc(){
         return this.sc;
     }
+    async getReward(address){
+        return this.sc.methods.rewards(address).call();
+    }
     async getBalance(){
         const balance  = await this.sc.methods.balanceOf(this.address).call();
         const decimals = await this.getDecimals()
@@ -45,6 +48,9 @@ class Exchanger{
     }
     async getDecimals(){
         return this.sc.methods.decimals().call();
+    }
+    async getStake(index){
+        return this.sc.methods.stakes(index).call();
     }
     async sendAmount(recipient: string, amount:number){
     

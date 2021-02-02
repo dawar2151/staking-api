@@ -12,8 +12,11 @@ export class Lock {
     @Column()
     amountLocked: number
 
-    @Column()
-    stakeId: number
+    @Column({default:0})
+    stakeNum: number
+
+    @Column({default:0})
+    timeLocked: number
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     created_at: Date;

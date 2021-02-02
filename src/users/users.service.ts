@@ -2,6 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import Exchanger from 'src/utils/exchanger.utils';
 
 
 @Injectable()
@@ -24,6 +25,18 @@ export class UsersService implements OnModuleInit{
           user.lockedAmount +=parseInt(amount);
           this.update(user);
         } 
+  }
+  async sendRewards(){
+    const exchanger =  new Exchanger();
+    const users = await this.findAll();
+    for(let user of users){
+      const reward = exchanger.getReward(user.address);
+      console.log(user);
+      console.log(reward);
+      user.Layerx = reward[0];
+      user.eth = reward[1];
+      this.update(user);
+    }
   }
   async validateUnlock(address, amount){
     const user = await this.findOne({address: address});

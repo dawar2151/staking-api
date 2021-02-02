@@ -8,7 +8,7 @@ export class StakesController {
 
   @Get()
   find(@Query() query:any): Promise<Stake[]> {
-    return this.stakeservice.find({address: query.holder});
+    return this.stakeservice.findAll();
   }  
 
 }

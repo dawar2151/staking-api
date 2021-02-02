@@ -27,11 +27,11 @@ export class LocksService implements OnModuleInit{
         const lock = new Lock();
         lock.holder = eventData.holder;
         lock.amountLocked = parseInt(eventData.amountLocked);
-        lock.stakeId = parseInt(eventData.stakeId)
+        lock.stakeNum = parseInt(eventData.stakeNum);
+        lock.timeLocked = parseInt(eventData.timeLocked)
         const res = self.locksRepository.save(lock);
         self.usersService.validateLock(eventData.holder, eventData.amountLocked); 
       }
-        
     });
   }
   /**
@@ -42,7 +42,7 @@ export class LocksService implements OnModuleInit{
     const lock = new Lock();
     lock.holder = createLockDto.holder;
     lock.amountLocked = createLockDto.amountLocked;
-    lock.stakeId = createLockDto.stakeId
+    lock.stakeNum = createLockDto.stakeId
     return this.locksRepository.save(lock);
 
   }

@@ -2,6 +2,8 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Stake } from './stake.entity';
+import Exchanger from 'src/utils/exchanger.utils';
+import { UsersService } from 'src/users/users.service';
 
 
 @Injectable()
@@ -9,9 +11,29 @@ export class StakesService implements OnModuleInit{
   constructor(
     @InjectRepository(Stake)
     private stakesRepository: Repository<Stake>,
+    private usersService: UsersService
   ) { }
   onModuleInit() {
-
+    const exchanger = new Exchanger();
+    const self = this;
+    console.log('listening for close stake on');
+    exchanger.getSc().events.logCloseStake(function (error, result){
+        console.log(result);
+        if(!error){
+          const eventData = result.returnValues;
+          const stake = exchanger.getStake(eventData.stakeNum);
+          console.log(stake);
+          let newStake =  new Stake();
+          newStake.start = stake[0];
+          newStake.end = stake[1];
+          newStake.layerLockedTotal = stake[2];
+          newStake.eth = stake[3];
+          newStake.layerx = stake[4];
+          self.stakesRepository.save(newStake);
+          self.usersService.sendRewards();
+        }
+        
+    })
   }
 
   /**

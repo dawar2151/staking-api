@@ -27,6 +27,8 @@ export class UnlocksService implements OnModuleInit{
         const unlock = new Unlock();
         unlock.holder = eventData.holder;
         unlock.amountUnlocked = parseInt(eventData.amountUnlocked);
+        unlock.stakeNum = parseInt(eventData.stakeNum);
+        unlock.timeUnlocked = parseInt(eventData.timeUnlocked)
         const res = self.unlocksRepository.save(unlock); 
         console.log(res);
         self.usersService.validateUnlock(unlock.holder, unlock.amountUnlocked);

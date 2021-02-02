@@ -5,6 +5,8 @@ import { Lock } from './lock.entity';
 import { CreateLockDto } from './dto/create-lock.dto';
 import { UpdateLockDto } from './dto/update-lock.dto';
 import Exchanger from 'src/utils/exchanger.utils';
+import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/user.entity';
 
 
 @Injectable()
@@ -12,8 +14,9 @@ export class LocksService implements OnModuleInit{
   constructor(
     @InjectRepository(Lock)
     private locksRepository: Repository<Lock>,
+    private usersService: UsersService
   ) { }
-  onModuleInit() {
+   onModuleInit() {
     const exchanger = new Exchanger();
     console.log("listening for logLockedTokens on ");
     let self = this;
@@ -25,7 +28,8 @@ export class LocksService implements OnModuleInit{
         lock.holder = eventData.holder;
         lock.amountLocked = parseInt(eventData.amountLocked);
         lock.stakeId = parseInt(eventData.stakeId)
-        const res = self.locksRepository.save(lock); 
+        const res = self.locksRepository.save(lock);
+        self.usersService.validateLock(eventData.holder, eventData.amountLocked); 
       }
         
     });

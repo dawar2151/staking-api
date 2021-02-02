@@ -5,6 +5,7 @@ import { Withdraw } from './withdraw.entity';
 import { CreateWithdrawDto } from './dto/create-withdraw.dto';
 import { UpdateWithdrawDto } from './dto/update-withdraw.dto';
 import Exchanger from 'src/utils/exchanger.utils';
+import { UsersService } from 'src/users/users.service';
 
 
 @Injectable()
@@ -12,6 +13,7 @@ export class WithdrawsService implements OnModuleInit{
   constructor(
     @InjectRepository(Withdraw)
     private withdrawsRepository: Repository<Withdraw>,
+    private usersService: UsersService
   ) { }
   onModuleInit() {
     const exchanger = new Exchanger();
@@ -28,7 +30,7 @@ export class WithdrawsService implements OnModuleInit{
         withdraw.layerx = parseInt(eventData.layerx);
         withdraw.stakeId = parseInt(eventData.stakeId)
         const res = self.withdrawsRepository.save(withdraw); 
-        console.log(res);
+        self.usersService.validateWithdraw(eventData.holder);
       }
         
     });

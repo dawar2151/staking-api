@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { LocksModule } from './locks/lock.module'
 import { UnlocksModule } from './unlocks/unlock.module';
 import { WithdrawsModule } from './withdraws/withdraw.module';
+import { UsersModule } from './users/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -24,7 +25,8 @@ import { WithdrawsModule } from './withdraws/withdraw.module';
     HttpModule,
     LocksModule,
     UnlocksModule,
-    WithdrawsModule
+    WithdrawsModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],

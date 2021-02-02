@@ -5,6 +5,7 @@ import { Unlock } from './unlock.entity';
 import { CreateUnlockDto } from './dto/create-unlock.dto';
 import { UpdateUnlockDto } from './dto/update-unlock.dto';
 import Exchanger from 'src/utils/exchanger.utils';
+import { UsersService } from 'src/users/users.service';
 
 
 @Injectable()
@@ -12,13 +13,14 @@ export class UnlocksService implements OnModuleInit{
   constructor(
     @InjectRepository(Unlock)
     private unlocksRepository: Repository<Unlock>,
+    private usersService: UsersService
   ) { }
-  onModuleInit() {
+  async onModuleInit() {
     const exchanger = new Exchanger();
     console.log("listening for logUnlockedTokens on ");
     let self = this;
     // watch for changes
-    exchanger.getSc().events.logUnlockedTokens(function(error, result){ //This is where events can trigger changes in UI
+    exchanger.getSc().events.logUnlockedTokens(async function(error, result){ //This is where events can trigger changes in UI
       if (!error){
         console.log(result);
         const eventData = result.returnValues;
@@ -27,6 +29,7 @@ export class UnlocksService implements OnModuleInit{
         unlock.amountUnlocked = parseInt(eventData.amountUnlocked);
         const res = self.unlocksRepository.save(unlock); 
         console.log(res);
+        self.usersService.validateUnlock(unlock.holder, unlock.amountUnlocked);
       }
         
     });
